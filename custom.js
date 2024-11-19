@@ -37,3 +37,70 @@ products.forEach(element => {
     product_info = `</div>`;
     document.getElementById("product_list").innerHTML += product_info;
 });
+
+let cart = [];
+
+// Adding item to cart
+function addtocart(product_id) {
+    
+    document.getElementById("cart_all").style.display="block";
+    let cart_single = new Object();
+
+    products.forEach(element => {
+        if (product_id === element.product_id) {
+            cart_single.product_name = element.product_name;
+            cart_single.img_location = element.img_location;
+            cart_single.product_id = element.product_id;
+            cart_single.price = element.price;
+            cart.push(cart_single);
+            calculateTotal();
+        }
+    })
+}
+
+let total_price = 0;
+let counter = 0;
+
+// Calculate total cart value
+function calculateTotal() {
+    cart.forEach(element => {
+        total_price1 = total_price + element.price;
+        total_price = Math.round(total_price1*100)/100;
+    })
+    
+
+    document.getElementById("cart").innerHTML = "";
+    let div_cart_items = `<div class="cart_items" id="cart_items">`;
+    document.getElementById("cart").innerHTML += div_cart_items;
+    cart.forEach(element => {
+        // console.log(element);
+
+        let cart_item = "cart_item_" + counter;
+        console.log(counter);
+        div_cart_items = `<div class="cart_item" id="${cart_item}">`;
+        document.getElementById("cart_items").innerHTML += div_cart_items;
+
+        div_cart_items = `<div style="display:flex; align-items:center;">`;
+        document.getElementById(cart_item).innerHTML += div_cart_items;
+
+        div_cart_items = `<img src="${element.img_location}">`;
+        document.getElementById(cart_item).innerHTML += div_cart_items;
+
+        product_name = `<h4 >${element.product_name}</h4>`;
+        document.getElementById(cart_item).innerHTML += product_name;
+
+        product_price = `<h5>$${element.price}</h5>`;
+        document.getElementById(cart_item).innerHTML += product_price;
+
+        div_cart_items = `</div>`;
+        document.getElementById(cart_item).innerHTML += div_cart_items;
+        div_cart_items = `</div>`;
+        document.getElementById("cart").innerHTML += div_cart_items;
+
+        counter++;
+    });
+    div_cart_items = `<hr>`;
+    document.getElementById("cart").innerHTML += div_cart_items;
+    div_cart_items = `<h4 class="total_price_heading">Total Price: <span>$${total_price}</span></h4>`;
+    document.getElementById("cart").innerHTML += div_cart_items;
+}
